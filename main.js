@@ -112,13 +112,12 @@ const posts = [
 
 ];
 
-console.log(posts.image)
-
+const likedId = [];
 
 for (let i = 0; i < posts.length; i++){
-
     document.getElementById('container').innerHTML += 
-    `<div class="post">
+    `<div>
+    <div class="post">
     <div class="post__header">
         <div class="post-meta">                    
             <div class="post-meta__icon">
@@ -137,18 +136,45 @@ for (let i = 0; i < posts.length; i++){
     <div class="post__footer">
         <div class="likes js-likes">
             <div class="likes__cta">
-                <a class="like-button js-like-button" href="#" data-postid="1">
+                <a class="like-button js-like-button" href="#" data-postid="${posts[i].id}">
                     <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                     <span class="like-button__label">Mi Piace</span>
                 </a>
             </div>
             <div class="likes__counter">
-                Piace a <b id="like-counter-1" class="js-likes-counter">80</b> persone
+                Piace a <b id="like-counter-1" class="js-likes-counter">${posts[i].likes}</b> persone
             </div>
         </div> 
     </div>            
+</div>
 </div>`
-    }
+}
+const likeCounters = document.querySelectorAll(`.js-likes-counter`);
+const likeButtons = document.querySelectorAll(`.like-button`);
+
+
+
+for (let i = 0 ; i < likeButtons.length ; i++){
+    likeButtons[i].addEventListener('click', (event) => {
+        event.preventDefault();
+        
+        if (likeButtons[i].classList.contains('like-button--liked')){
+            likeButtons[i].classList.remove('like-button--liked');
+            likeCounters[i].innerHTML = parseInt(likeCounters[i].innerHTML) - 1;
+            likedId.splice(likedId.indexOf(likeButtons[i].getAttribute('data-postid')));
+        } else {
+            likeButtons[i].classList.add('like-button--liked');
+            likeCounters[i].innerHTML = parseInt(likeCounters[i].innerHTML) + 1;
+            likedId.push(likeButtons[i].getAttribute('data-postid'));
+            
+        };
+    });
+};
+
+
+
+
+
 
 
 
